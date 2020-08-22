@@ -3,7 +3,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const date = require(__dirname + "/date.js");
+
 
 const app = express();
 
@@ -13,12 +13,40 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser:true, useUnifiedTopology: true});
+//item schema
+const itemsSchema = new mongoose.Schema({
+  name: String
+});
+ //item model which follows item schema
+const Item = new mongoose.model("item",itemsSchema);
+
+// items for db
+const item1 = new Item({
+  name:"welcome"
+});
+const item2 = new Item({
+  name:"hit + for add"
+});
+const item3 = new Item({
+  name:"Hit this to dlt"
+});
+
+const defaultItems = [item1,item2,item3];
+
+//insert into db
+Item.insertMany(defaultItems,(err)=>{
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("succesfully inserted");
+  }
+});
+
+
 
 app.get("/", function(req, res) {
 
-const day = date.getDate();
-
-  res.render("list", {listTitle: day, newListItems: items});
+  res.render("list", {listTitle: "Today", newListItems: items});
 
 });
 

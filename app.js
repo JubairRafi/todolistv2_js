@@ -30,8 +30,13 @@ const item2 = new Item({
 const item3 = new Item({
   name:"Hit this to dlt"
 });
-
 const defaultItems = [item1,item2,item3];
+
+const listSchema = {
+  name:String,
+  items: [itemsSchema]
+};
+const List = mongoose.model("List",listSchema);
 
 
 app.get("/", function(req, res) {
@@ -51,6 +56,31 @@ app.get("/", function(req, res) {
     }else{
       res.render("list", {listTitle: "Today", newListItems: foundItems}); //here foundItems has all the items from database
 
+    }
+
+  });
+
+
+});
+
+app.get("/:customListName",(req,res)=>{
+  const customListName = req.params.customListName;
+
+  List.findOne({name: customListName},(err, foundList)=>{
+    if (!err) {
+      if(!foundList){
+        console.log("Doesn't exist");
+      //  create new list
+        const list = new List({
+          name: customListName,
+          items: defaultItems
+        });
+        list.save();
+        res.redirect("/"+customListName);
+      }else{
+        console.log("Exists!");
+        res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
+      }
     }
 
   });
@@ -97,9 +127,11 @@ app.post("/delete",(req,res)=>{
   res.redirect("/");
 });
 
-app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
-});
+// app.get("/work", function(req,res){
+//   res.render("list", {listTitle: "Work List", newListItems: workItems});
+// });
+
+
 
 app.get("/about", function(req, res){
   res.render("about");

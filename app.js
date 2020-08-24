@@ -38,7 +38,7 @@ app.get("/", function(req, res) {
 
   Item.find({},(err,foundItems)=>{
 
-    if (foundItems.length==0) {
+    if (foundItems.length===0) {
       //insert into db
       Item.insertMany(defaultItems,(err)=>{
         if (err) {
@@ -49,7 +49,7 @@ app.get("/", function(req, res) {
       });
       res.redirect("/");
     }else{
-      res.render("list", {listTitle: "Today", newListItems: foundItems});
+      res.render("list", {listTitle: "Today", newListItems: foundItems}); //here foundItems has all the items from database
 
     }
 
@@ -60,15 +60,33 @@ app.get("/", function(req, res) {
 
 app.post("/", function(req, res){
 
-  const item = req.body.newItem;
+  const itemName = req.body.newItem;
+  const newitem = new Item({
+    name: itemName
+  });
+  // Item.inserOne(newitem,(err)=>{
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log("new item inserted");
+  //   }
+  // });
+  newitem.save(); //do same as above code
+  res.redirect("/");
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+});
+
+app.post("/delete",(req,res)=>{
+  const itemId = req.body.checkbox;
+  console.log(req.body.checkbox);
+  Item.deleteOne({_id:itemId},(err)=>{
+    if (err) {
+      console.log(err);
+    }else{
+      console.log("deleting succesful");
+    }
+  });
+  res.redirect("/");
 });
 
 app.get("/work", function(req,res){

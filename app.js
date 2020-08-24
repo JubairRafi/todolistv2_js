@@ -79,7 +79,15 @@ app.post("/", function(req, res){
 app.post("/delete",(req,res)=>{
   const itemId = req.body.checkbox;
   console.log(req.body.checkbox);
-  Item.deleteOne({_id:itemId},(err)=>{
+  // Item.deleteOne({_id:itemId},(err)=>{
+  //   if (err) {
+  //     console.log(err);
+  //   }else{
+  //     console.log("deleting succesful");
+  //   }
+  // });
+
+  Item.findByIdAndRemove(itemId,(err)=>{  //same code as above
     if (err) {
       console.log(err);
     }else{

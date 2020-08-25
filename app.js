@@ -120,7 +120,27 @@ app.post("/", function(req, res){
 
 app.post("/delete",(req,res)=>{
   const itemId = req.body.checkbox;
+  const listName = req.body.listName;
   console.log(req.body.checkbox);
+
+
+  if (listName==="Today") {
+    Item.findByIdAndRemove(itemId,(err)=>{  //same code as above
+      if (err) {
+        console.log(err);
+      }else{
+        console.log("deleting succesful");
+        res.redirect("/");
+      }
+    });
+
+  } else {
+    List.findOneAndUpdate({name:listName},{$pull:{items: {_id: itemId}}},(err,foundList)=>{ //find a list and update the list with $pull. we can do all of this with loops
+      if(!err){
+        res.redirect("/"+listName);
+      }
+    });
+  }
   // Item.deleteOne({_id:itemId},(err)=>{
   //   if (err) {
   //     console.log(err);
@@ -129,14 +149,7 @@ app.post("/delete",(req,res)=>{
   //   }
   // });
 
-  Item.findByIdAndRemove(itemId,(err)=>{  //same code as above
-    if (err) {
-      console.log(err);
-    }else{
-      console.log("deleting succesful");
-    }
-  });
-  res.redirect("/");
+
 });
 
 // app.get("/work", function(req,res){

@@ -70,8 +70,7 @@ app.get("/about", function(req, res){
 app.get("/:customListName",(req,res)=>{
   const customListName = _.capitalize(req.params.customListName);
 
-
-  List.findOne({name: customListName},(err, foundList)=>{
+  List.findOne({name: customListName},(err, foundCustomList)=>{
     // if (!err) {
     //   if(!foundList){
     //     console.log("Doesn't exist");
@@ -92,9 +91,9 @@ app.get("/:customListName",(req,res)=>{
     if(err){
       console.log(err);
     }else{
-      if (foundList) {
+      if (foundCustomList) {
         console.log("Exists!");
-        res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
+        res.render("list", {listTitle: foundCustomList.name, newListItems: foundCustomList.items});
       }else{
           console.log("Doesn't exist");
           //  create new list
@@ -103,7 +102,9 @@ app.get("/:customListName",(req,res)=>{
               items: defaultItems
             });
             list.save();
-            res.redirect("/"+customListName);
+            // Item.find({},(err,test)=>{console.log(test);
+            // });
+            res.redirect("/"+ customListName);
 
       }
     }

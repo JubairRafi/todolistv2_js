@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser:true, useUnifiedTopology: true});
+mongoose.connect("mongodb+srv://admin-pial:test123@cluster0.zxplm.mongodb.net/todolistDB",{useNewUrlParser:true, useUnifiedTopology: true, useFindAndModify: false});
 //item schema
 const itemsSchema = new mongoose.Schema({
   name: String
@@ -102,8 +102,7 @@ app.get("/:customListName",(req,res)=>{
               items: defaultItems
             });
             list.save();
-            // Item.find({},(err,test)=>{console.log(test);
-            // });
+
             res.redirect("/"+ customListName);
 
       }

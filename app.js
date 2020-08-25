@@ -28,7 +28,7 @@ const item2 = new Item({
   name:"hit + for add"
 });
 const item3 = new Item({
-  name:"Hit this to dlt"
+  name:"<--Hit this to dlt"
 });
 const defaultItems = [item1,item2,item3];
 

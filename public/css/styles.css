@@ -56,7 +56,7 @@ form.item {
   margin-left: 20px;
 }
 
-button {
+button,.confirm {
   min-height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -66,6 +66,11 @@ button {
   font-size: 30px;
   padding-bottom: 6px;
   border-width: 0;
+}
+.confirm{
+  background-color: #2d4059;
+  color: #fff;
+  font-size: 30px;
 }
 
 input[type="text"] {

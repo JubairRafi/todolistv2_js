@@ -109,8 +109,15 @@ app.get("/:customListName",(req,res)=>{
     }
 
   });
+});
 
-
+app.post("/custom",(req,res)=>{
+  const newList = _.capitalize(req.body.newList);
+  if(newList === "Today" || newList === ""){
+    res.redirect("/");
+  }else{
+    res.redirect("/"+ newList);
+  }
 });
 
 app.post("/", function(req, res){

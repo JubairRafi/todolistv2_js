@@ -19,8 +19,16 @@
 
       <form class="item" action="/" method="post">
         <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-        <button type="submit" name="list" value="<%= listTitle %>">+</button>
+        <button  type="submit" name="list" value="<%= listTitle %>">+</button>
       </form>
   </div>
+
+
+<div class="box">
+  <form class="item" action="/custom" method="post">
+    <input type="text" name="newList" placeholder="Custom List" autocomplete="off">
+    <button class="confirm" type="submit" name="customlist" value="<%= listTitle %>">></button>
+  </form>
+</div>
 
 <%- include("footer") -%>
